@@ -18,6 +18,8 @@ class ClasSolver(BaseSolver):
 
     def fit(self, ):
         print("Start training")
+        print(f"[Rank {dist_utils.get_rank()}] Running on GPU: {torch.cuda.current_device()} total GPUs: {torch.cuda.device_count()}")
+
         self.train()
         args = self.cfg 
 
