@@ -1,0 +1,57 @@
+task: detection
+
+evaluator:
+  type: CocoEvaluator
+  iou_types: ['bbox', ]
+
+#num_classes: 365
+#remap_mscoco_category: False
+
+#num_classes: 12
+#remap_mscoco_category: False
+
+num_classes: 80
+remap_mscoco_category: False
+
+
+train_dataloader: 
+  type: DataLoader
+  dataset: 
+    type: CocoDetection
+#    img_folder: D:/dataset/Intestinal Organoid Dataset/train/
+#    ann_file: D:/dataset/Intestinal Organoid Dataset/train_annotations_coco_format.json
+#    img_folder: D:/dataset/organoids_tracking/stomach_cancer/img_99/img_1
+#    ann_file: D:/dataset/organoids_tracking/stomach_cancer/img_99/annotations/instances_default.json
+#    img_folder: D:/dataset/VisDrone/train/images/
+#    ann_file: D:/dataset/VisDrone/annotations_VisDrone_train.json
+
+    return_masks: False
+    transforms:
+      type: Compose
+      ops: ~
+  shuffle: True
+  num_workers: 0
+  drop_last: True 
+  collate_fn:
+    type: BatchImageCollateFuncion
+
+
+val_dataloader:
+  type: DataLoader
+  dataset: 
+    type: CocoDetection
+#    img_folder: D:/dataset/Intestinal Organoid Dataset/test/
+#    ann_file: D:/dataset/Intestinal Organoid Dataset/test_annotations_coco_format.json
+#    img_folder: D:/dataset/organoids_tracking/stomach_cancer/img_13/img_1
+#    ann_file: D:/dataset/organoids_tracking/stomach_cancer/img_13/annotations/instances_default.json
+#    img_folder: D:/dataset/VisDrone/val/images/
+#    ann_file: D:/dataset/VisDrone/annotations_VisDrone_val.json
+    return_masks: False
+    transforms:
+      type: Compose
+      ops: ~ 
+  shuffle: False
+  num_workers: 0
+  drop_last: False
+  collate_fn:
+    type: BatchImageCollateFuncion

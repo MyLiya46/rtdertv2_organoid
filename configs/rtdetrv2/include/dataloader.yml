@@ -1,0 +1,47 @@
+
+train_dataloader: 
+  dataset: 
+    transforms:
+      ops:
+        - {type: RandomPhotometricDistort, p: 0.5}
+        - {type: RandomZoomOut, fill: 0}
+        - {type: RandomIoUCrop, p: 0.8}
+        - {type: SanitizeBoundingBoxes, min_size: 1}
+        - {type: RandomHorizontalFlip}
+#        - {type: Resize, size: [640, 640]}
+#        - {type: Resize, size: [2048, 2048]}
+#        - {type: Resize, size: [1280, 1920]}
+        - {type: Resize, size: [2400, 1600]} # h,w
+        - {type: SanitizeBoundingBoxes, min_size: 1}
+        - {type: ConvertPILImage, dtype: 'float32', scale: True}   
+        - {type: ConvertBoxes, fmt: 'cxcywh', normalize: True}
+      policy:
+        name: stop_epoch
+        epoch: 99 # epoch in [71, ~) stop `ops`
+        ops: ['RandomPhotometricDistort', 'RandomZoomOut', 'RandomIoUCrop']
+  
+  collate_fn:
+    type: BatchImageCollateFuncion
+#    scales: [480, 512, 544, 576, 608, 640, 640, 640, 672, 704, 736, 768, 800]
+#    scales: [1408, 1536, 1664, 1792, 1920, 2048, 2048, 2176, 2304, 2432, 2560, 2688, 2816]
+#    scales: [1200, 1344, 1488, 1632, 1776, 1920, 1920, 2064, 2208, 2352, 2496, 2640, 2784]
+    scales: [1920, 2016, 2112, 2208, 2304, 2400, 2400, 2400, 2496, 2592, 2688, 2784, 2880]
+    stop_epoch: 71 # epoch in [71, ~) stop `multiscales`
+
+  shuffle: True
+  total_batch_size: 1 # total batch size equals to 16 (4 * 4)
+  num_workers: 0
+
+
+val_dataloader:
+  dataset: 
+    transforms:
+      ops:
+#        - {type: Resize, size: [640, 640]}
+#        - {type: Resize, size: [2048, 2048]}
+#        - {type: Resize, size: [1280, 1920]}
+        - {type: Resize, size: [2400, 1600]}
+        - {type: ConvertPILImage, dtype: 'float32', scale: True}   
+  shuffle: False
+  total_batch_size: 1
+  num_workers: 0

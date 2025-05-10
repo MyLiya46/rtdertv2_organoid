@@ -1,0 +1,1 @@
+python references/deploy/rtdetrv2_torch.py -c "configs\rtdetrv2\rtdetrv2_r101vd_6x_coco.yml" -r "checkpoints\rtdetrv2_r101vd_6x_coco_from_paddle.pth" --im-file="man_with_a_dog.png" --device=cuda:0
