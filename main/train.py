@@ -28,6 +28,14 @@ def main(args, ) -> None:
         if k not in ['update', ] and v is not None})
 
     cfg = YAMLConfig(args.config, **update_dict)
+        # 从 YAMLConfig 中获取 image_dir 路径
+    image_dir = cfg.yaml_cfg.get('TrainDataset', {}).get('image_dir', 'unknown_dataset')
+    dataset_name = Path(image_dir).parent.name if image_dir != 'unknown_dataset' else 'unknown_dataset'
+    
+    base_output_dir = Path("output")
+    exp_dir = base_output_dir / f"ddp_{dataset_name}_{datetime.datetime.now().strftime('%Y%m%d-%H%M%S')}"
+
+    args.output_dir = str(exp_dir)
     print('cfg: ', cfg.__dict__)
 
     solver = TASKS[cfg.yaml_cfg['task']](cfg)
@@ -59,9 +67,7 @@ if __name__ == '__main__':
     parser.add_argument('--seed', type=int, help='exp reproducibility', default=0)
     parser.add_argument('--use-amp', action='store_true', help='auto mixed precision training')
 
-    base_output_dir = Path("output")
-    exp_dir = base_output_dir / f"ddp_pancreatic_cancer_{datetime.datetime.now().strftime('%Y%m%d-%H%M%S')}"
-    parser.add_argument('--output-dir', type=str, help='output directoy', default=exp_dir)
+    parser.add_argument('--output-dir', type=str, help='output directoy', default='./output/rtdetrv2_r101vd_6x_organoid')
     # parser.add_argument('--output-dir', type=str, help='output directoy', default='output/rtdetrv2_organoid')
     parser.add_argument('--summary-dir', type=str, help='tensorboard summry')
     parser.add_argument('--test-only', action='store_true', default=False,)
