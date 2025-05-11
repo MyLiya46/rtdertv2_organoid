@@ -87,7 +87,7 @@ train_dataloader:
     img_folder: /home/ubuntu/emma_myers/tracking_labeled/all/img_1
     ann_file: /home/ubuntu/emma_myers/tracking_labeled/all/annotations/instances_default.json
   shuffle: True
-  num_workers: 4
+  num_workers: 8
   total_batch_size: 1
 
 val_dataloader:
