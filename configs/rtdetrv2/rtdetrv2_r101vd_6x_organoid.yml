@@ -56,10 +56,15 @@ train_dataloader:
   dataset:
     img_folder: D:/Workspace/Organoid_Tracking/tracking_labeled/all/img_1/
     ann_file: D:/Workspace/Organoid_Tracking/tracking_labeled/all/annotations/instances_default.json
-
+  shuffle: True
+  num_workers: 1
+  total_batch_size: 1
 val_dataloader:
   dataset:
     img_folder: D:/Workspace/Organoid_Tracking/tracking_labeled/all/img_1/
     ann_file: D:/Workspace/Organoid_Tracking/tracking_labeled/all/annotations/instances_default.json
+  shuffle: True
+  num_workers: 1
+  total_batch_size: 1
 
 num_classes: 2
