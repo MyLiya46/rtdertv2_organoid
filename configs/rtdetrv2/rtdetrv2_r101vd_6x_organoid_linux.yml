@@ -44,43 +44,43 @@ optimizer:
 
 # TrainDataset:
 #   name: CocoDetection
-#   image_dir: /home/ubuntu/emma_myers/organoid_tracking/rtdertv2_organoid/data/all/img_1
-#   anno_path: /home/ubuntu/emma_myers/organoid_tracking/rtdertv2_organoid/data/all/annotations/MOT/instances_default.json
+#   image_dir: /home/ubuntu/emma_myers/data/all/img_1
+#   anno_path: /home/ubuntu/emma_myers/data/all/annotations/instances_default.json
 
 # EvalDataset:
 #   name: CocoDetection
-#   image_dir: /home/ubuntu/emma_myers/organoid_tracking/rtdertv2_organoid/data/all/img_1
-#   anno_path: /home/ubuntu/emma_myers/organoid_tracking/rtdertv2_organoid/data/all/annotations/MOT/instances_default.json
+#   image_dir: /home/ubuntu/emma_myers/data/all/img_1
+#   anno_path: /home/ubuntu/emma_myers/data/all/annotations/instances_default.json
 
 # train_dataloader:
 #   dataset:
-#     img_folder: /home/ubuntu/emma_myers/organoid_tracking/rtdertv2_organoid/data/all/img_1
-#     ann_file: /home/ubuntu/emma_myers/organoid_tracking/rtdertv2_organoid/data/all/annotations/MOT/instances_default.json
+#     img_folder: /home/ubuntu/emma_myers/data/all/img_1
+#     ann_file: /home/ubuntu/emma_myers/data/all/annotations/instances_default.json
 
 # val_dataloader:
 #   dataset:
-#     img_folder: /home/ubuntu/emma_myers/organoid_tracking/rtdertv2_organoid/data/all/img_1
-#     ann_file: /home/ubuntu/emma_myers/organoid_tracking/rtdertv2_organoid/data/all/annotations/MOT/instances_default.json
+#     img_folder: /home/ubuntu/emma_myers/data/all/img_1
+#     ann_file: /home/ubuntu/emma_myers/data/all/annotations/instances_default.json
 
 TrainDataset:
   name: CocoDetection
-  image_dir: /home/ubuntu/emma_myers/organoid_tracking/rtdertv2_organoid/tracking_labeled/pancreatic_cancer_labeled/img_1
-  anno_path: /home/ubuntu/emma_myers/organoid_tracking/rtdertv2_organoid/tracking_labeled/pancreatic_cancer_labeled/annotations/MOT/instances_default.json
+  image_dir: /home/ubuntu/emma_myers/tracking_labeled/pancreatic_cancer_labeled/img_1
+  anno_path: /home/ubuntu/emma_myers/tracking_labeled/pancreatic_cancer_labeled/annotations/instances_default.json
 
 EvalDataset:
   name: CocoDetection
-  image_dir: /home/ubuntu/emma_myers/organoid_tracking/rtdertv2_organoid/tracking_labeled/pancreatic_cancer_labeled/img_1
-  anno_path: /home/ubuntu/emma_myers/organoid_tracking/rtdertv2_organoid/tracking_labeled/pancreatic_cancer_labeled/annotations/MOT/instances_default.json
+  image_dir: /home/ubuntu/emma_myers/tracking_labeled/pancreatic_cancer_labeled/img_1
+  anno_path: /home/ubuntu/emma_myers/tracking_labeled/pancreatic_cancer_labeled/annotations/instances_default.json
 
 train_dataloader:
   dataset:
-    img_folder: /home/ubuntu/emma_myers/organoid_tracking/rtdertv2_organoid/tracking_labeled/pancreatic_cancer_labeled/img_1
-    ann_file: /home/ubuntu/emma_myers/organoid_tracking/rtdertv2_organoid/tracking_labeled/pancreatic_cancer_labeled/annotations/MOT/instances_default.json
+    img_folder: /home/ubuntu/emma_myers/tracking_labeled/pancreatic_cancer_labeled/img_1
+    ann_file: /home/ubuntu/emma_myers/tracking_labeled/pancreatic_cancer_labeled/annotations/instances_default.json
 
 val_dataloader:
   dataset:
-    img_folder: /home/ubuntu/emma_myers/organoid_tracking/rtdertv2_organoid/tracking_labeled/pancreatic_cancer_labeled/img_1
-    ann_file: /home/ubuntu/emma_myers/organoid_tracking/rtdertv2_organoid/tracking_labeled/pancreatic_cancer_labeled/annotations/MOT/instances_default.json
+    img_folder: /home/ubuntu/emma_myers/tracking_labeled/pancreatic_cancer_labeled/img_1
+    ann_file: /home/ubuntu/emma_myers/tracking_labeled/pancreatic_cancer_labeled/annotations/instances_default.json
 
 
 num_classes: 2
