@@ -1,1 +1,1 @@
-python tools/train.py --config configs/rtdetrv2/rtdetrv2_r101vd_6x_organoid.yml --tuning checkpoints/rtdetrv2_r101vd_6x_coco_from_paddle.pth --use-amp --seed 0 --output-dir output/rtdetrv2_organoid --device=cuda:0
+python main/train.py --config configs/rtdetrv2/rtdetrv2_r101vd_6x_organoid.yml --tuning checkpoints/rtdetrv2_r101vd_6x_coco_from_paddle.pth --use-amp --seed 0 --output-dir output/rtdetrv2_organoid --device=cuda:0
