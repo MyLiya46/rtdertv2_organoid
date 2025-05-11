@@ -18,7 +18,7 @@ def visualize_log(log_file):
 
     df = pd.DataFrame(data)
 
-    output_dir = '.\\output\\exp_train_rtdetrv2_r101vd_6x_coco_pancreatic_stomach_cancer20250428-232126'
+    output_dir = r'D:\Workspace\Organoid_Tracking\organoid_tracking\rtdetrv2_pytorch\test'
     os.makedirs(output_dir, exist_ok=True)
 
     # 创建一个包含3行1列的子图布局
@@ -103,5 +103,5 @@ def visualize_log(log_file):
 
 
 if __name__ == "__main__":
-    log_file = r'output\exp_train_rtdetrv2_r101vd_6x_coco_pancreatic_stomach_cancer20250428-232126\log.txt'
+    log_file = r'D:\Workspace\Organoid_Tracking\organoid_tracking\rtdetrv2_pytorch\test\log.txt'
     visualize_log(log_file)
