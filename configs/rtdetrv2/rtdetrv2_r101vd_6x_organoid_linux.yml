@@ -13,6 +13,10 @@ eval_spatial_size: [2400, 1600] # h w
 output_dir: ./output/rtdetrv2_r101vd_6x_organoid
 
 use_amp: True
+scaler:
+  type: GradScaler
+  enabled: True
+
 
 PResNet:
   depth: 101
@@ -84,7 +88,7 @@ train_dataloader:
     ann_file: /home/ubuntu/emma_myers/tracking_labeled/pancreatic_cancer_labeled/annotations/instances_default.json
   shuffle: True
   num_workers: 4
-  total_batch_size: 4
+  total_batch_size: 1
 
 val_dataloader:
   dataset:
@@ -92,6 +96,6 @@ val_dataloader:
     ann_file: /home/ubuntu/emma_myers/tracking_labeled/pancreatic_cancer_labeled/annotations/instances_default.json
   shuffle: True
   num_workers: 4
-  total_batch_size: 4
+  total_batch_size: 1
 
 num_classes: 2

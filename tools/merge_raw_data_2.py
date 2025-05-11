@@ -8,19 +8,19 @@ datasets = [
     {
         "name": "pancreatic",
         "image_dir": r"D:\Workspace\Organoid_Tracking\tracking_labeled\pancreatic_cancer_labeled\img_1",
-        "annotation": r"D:\Workspace\Organoid_Tracking\tracking_labeled\pancreatic_cancer_labeled\annotations\MOT\instances_default.json"
+        "annotation": r"D:\Workspace\Organoid_Tracking\tracking_labeled\pancreatic_cancer_labeled\annotations\instances_default.json"
     },
     {
         "name": "stomach",
         "image_dir": r"D:\Workspace\Organoid_Tracking\tracking_labeled\stomach_cancer_labeled\img_1",
-        "annotation": r"D:\Workspace\Organoid_Tracking\tracking_labeled\stomach_cancer_labeled\annotations\MOT\instances_default.json"
+        "annotation": r"D:\Workspace\Organoid_Tracking\tracking_labeled\stomach_cancer_labeled\annotations\instances_default.json"
     }
 ]
 
 # 合并输出路径（Windows 本地）
 output_dir = Path(r"D:\Workspace\Organoid_Tracking\tracking_labeled\all")
 merged_img_dir = output_dir / "img_1"
-merged_ann_path = output_dir / "annotations\MOT\instances_default.json"
+merged_ann_path = output_dir / r"annotations\instances_default.json"
 merged_img_dir.mkdir(parents=True, exist_ok=True)
 merged_ann_path.parent.mkdir(parents=True, exist_ok=True)
 
