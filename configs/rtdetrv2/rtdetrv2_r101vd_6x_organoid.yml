@@ -12,8 +12,8 @@ eval_spatial_size: [2400, 1600] # h w
 
 output_dir: ./output/rtdetrv2_r101vd_6x_organoid
 
-# PResNet:
-#   depth: 101
+PResNet:
+  depth: 101
 
 HybridEncoder:
   hidden_dim: 384

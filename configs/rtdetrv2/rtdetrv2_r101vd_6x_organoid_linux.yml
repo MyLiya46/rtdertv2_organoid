@@ -1,0 +1,97 @@
+__include__: [
+  '../dataset/coco_detection.yml',
+  '../runtime.yml',
+  './include/dataloader.yml',
+  './include/optimizer.yml',
+  './include/rtdetrv2_r50vd.yml',
+]
+
+
+eval_spatial_size: [2400, 1600] # h w
+
+
+output_dir: ./output/rtdetrv2_r101vd_6x_organoid
+
+use_amp: True
+
+PResNet:
+  depth: 101
+
+HybridEncoder:
+  hidden_dim: 384
+  dim_feedforward: 2048
+  # eval_spatial_size: [800, 1333]
+
+# Transformer decoder
+RTDETRTransformerv2:
+  feat_channels: [384, 384, 384]
+  # feat_strides: [8, 16, 32]
+  # num_points: [4, 4, 4]
+  # hidden_dim: 256
+  # num_queries: 300
+
+
+epoches: 200
+
+
+optimizer:
+  type: AdamW
+  params: 
+    - 
+      params: '^(?=.*backbone)(?!.*norm|bn).*$'
+      lr: 0.000001
+    - 
+      params: '^(?=.*(?:encoder|decoder))(?=.*(?:norm|bn)).*$'
+      weight_decay: 0.
+
+  lr: 0.0001
+  betas: [0.9, 0.999]
+  weight_decay: 0.0001
+
+# TrainDataset:
+#   name: CocoDetection
+#   image_dir: /home/ubuntu/emma_myers/data/all/img_1
+#   anno_path: /home/ubuntu/emma_myers/data/all/annotations/instances_default.json
+
+# EvalDataset:
+#   name: CocoDetection
+#   image_dir: /home/ubuntu/emma_myers/data/all/img_1
+#   anno_path: /home/ubuntu/emma_myers/data/all/annotations/instances_default.json
+
+# train_dataloader:
+#   dataset:
+#     img_folder: /home/ubuntu/emma_myers/data/all/img_1
+#     ann_file: /home/ubuntu/emma_myers/data/all/annotations/instances_default.json
+
+# val_dataloader:
+#   dataset:
+#     img_folder: /home/ubuntu/emma_myers/data/all/img_1
+#     ann_file: /home/ubuntu/emma_myers/data/all/annotations/instances_default.json
+
+TrainDataset:
+  name: CocoDetection
+  image_dir: /home/ubuntu/emma_myers/tracking_labeled/pancreatic_cancer_labeled/img_1
+  anno_path: /home/ubuntu/emma_myers/tracking_labeled/pancreatic_cancer_labeled/annotations/instances_default.json
+
+EvalDataset:
+  name: CocoDetection
+  image_dir: /home/ubuntu/emma_myers/tracking_labeled/pancreatic_cancer_labeled/img_1
+  anno_path: /home/ubuntu/emma_myers/tracking_labeled/pancreatic_cancer_labeled/annotations/instances_default.json
+
+train_dataloader:
+  dataset:
+    img_folder: /home/ubuntu/emma_myers/tracking_labeled/pancreatic_cancer_labeled/img_1
+    ann_file: /home/ubuntu/emma_myers/tracking_labeled/pancreatic_cancer_labeled/annotations/instances_default.json
+  shuffle: True
+  num_workers: 4
+  total_batch_size: 4
+
+val_dataloader:
+  dataset:
+    img_folder: /home/ubuntu/emma_myers/tracking_labeled/pancreatic_cancer_labeled/img_1
+    ann_file: /home/ubuntu/emma_myers/tracking_labeled/pancreatic_cancer_labeled/annotations/instances_default.json
+  shuffle: True
+  num_workers: 4
+  total_batch_size: 4
+
+num_classes: 2

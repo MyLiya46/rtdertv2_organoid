@@ -7,7 +7,7 @@ from pathlib import Path
 import datetime
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
-
+# from tools import set_env
 import argparse
 
 from src.misc import dist_utils
@@ -59,8 +59,8 @@ if __name__ == '__main__':
     parser.add_argument('--seed', type=int, help='exp reproducibility', default=0)
     parser.add_argument('--use-amp', action='store_true', help='auto mixed precision training')
 
-    base_output_dir = Path(r"D:/Workspace/Organoid_Tracking/organoid_tracking/rtdetrv2_pytorch/output")
-    exp_dir = base_output_dir / f"exp_train_rtdetrv2_r101vd_6x_coco_pancreatic_stomach_cancer{datetime.datetime.now().strftime('%Y%m%d-%H%M%S')}"
+    base_output_dir = Path("output")
+    exp_dir = base_output_dir / f"ddp_pancreatic_cancer_{datetime.datetime.now().strftime('%Y%m%d-%H%M%S')}"
     parser.add_argument('--output-dir', type=str, help='output directoy', default=exp_dir)
     # parser.add_argument('--output-dir', type=str, help='output directoy', default='output/rtdetrv2_organoid')
     parser.add_argument('--summary-dir', type=str, help='tensorboard summry')
@@ -72,7 +72,6 @@ if __name__ == '__main__':
     # env
     parser.add_argument('--print-method', type=str, default='builtin', help='print method')
     parser.add_argument('--print-rank', type=int, default=0, help='print rank id')
-
     parser.add_argument('--local-rank', type=int, help='local rank id')
     args = parser.parse_args()
 
