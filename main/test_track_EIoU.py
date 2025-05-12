@@ -21,7 +21,7 @@ def setup_experiment(args):
     """创建实验目录结构并返回路径"""
     now = datetime.datetime.now()
     exp_name = f"exp_track_EIoU_{now.strftime('%Y%m%d_%H%M%S')}"
-    exp_dir = Path(r"D:/Workspace/Organoid_Tracking/organoid_tracking/rtdetrv2_pytorch/output") / exp_name
+    exp_dir = Path(r"/home/ubuntu/emma_myers/organoid_tracking/rtdetrv2_pytorch/output") / exp_name
     
     # 子文件夹
     (exp_dir / "det").mkdir(parents=True, exist_ok=True)
@@ -136,17 +136,19 @@ class Model(nn.Module):
         return self.postprocessor(outputs, orig_target_sizes)
 
 def get_argparser():
+    # root_path = r"D:/Workspace/Organoid_Tracking"
+    root_path = r"/home/ubuntu/emma_myers"
     parser = argparse.ArgumentParser()
     parser.add_argument("--config",
-                        default="D:/Workspace/Organoid_Tracking/organoid_tracking/rtdetrv2_pytorch/configs/rtdetrv2/rtdetrv2_r101vd_6x_organoid.yml",
+                        default=root_path / "organoid_tracking/rtdetrv2_pytorch/configs/rtdetrv2/rtdetrv2_r101vd_6x_organoid_linux.yml",
                         help="配置文件路径")
     parser.add_argument("--ckpt",
-                        default=r"D:\Workspace\Organoid_Tracking\organoid_tracking\rtdetrv2_pytorch\output\exp_train_rtdetrv2_r101vd_6x_coco_pancreatic_stomach_cancer20250428-232126\best.pth",
+                        default=root_path / "organoid_tracking/rtdetrv2_pytorch/output/exp_train_rtdetrv2_r101vd_6x_organoid_all_200epoch/best.pth",
                         help="权重文件路径")
     parser.add_argument("--image_folder", 
-                        default="D:/Workspace/Organoid_Tracking/tracking_labeled/stomach_cancer_labeled/img_1",
+                        default=root_path / "tracking_labeled/stomach_cancer_labeled/img_1",
                         help="待推理图片路径")
-    parser.add_argument("--gt_file", default="D:/Workspace/Organoid_Tracking/tracking_labeled/stomach_cancer_labeled/annotations/MOT/gt.txt", help="可选:GT文件路径，用于可视化")
+    parser.add_argument("--gt_file", default=root_path / "tracking_labeled/stomach_cancer_labeled/annotations/MOT/gt.txt", help="可选:GT文件路径，用于可视化")
 
     parser.add_argument("--device", default="cuda:0" if torch.cuda.is_available() else "cpu")
     parser.add_argument("--track_high_thresh", type=float, default=0.6, help="tracking confidence threshold")
