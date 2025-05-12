@@ -11,25 +11,40 @@ eval_spatial_size: [2400, 1600] # h w
 
 output_dir: ./output/rtdetrv2_r50vd_organoid
 
+epoches: 50
+
+use_amp: True
+scaler:
+  type: GradScaler
+  enabled: True
+
+PResNet:
+  depth: 50
+  variant: d
+  # freeze_at: 0
+  # freeze_at: 2
+  freeze_at: 4
+  # 逐层解冻
+  return_idx: [1, 2, 3]
+  num_stages: 4
+  freeze_norm: True
+  pretrained: True 
+
+
 RTDETRTransformerv2:
   feat_channels: [256, 256, 256]
   feat_strides: [8, 16, 32]
   hidden_dim: 256
   num_levels: 3
-
   num_layers: 6
   num_queries: 600
-
   num_denoising: 200
   label_noise_ratio: 0.5
   box_noise_scale: 1.0 # 1.0 0.4
-
   eval_idx: -1
 
 RTDETRPostProcessor:
   num_top_queries: 600
-
-
 
 
 optimizer:
@@ -46,3 +61,31 @@ optimizer:
   betas: [0.9, 0.999]
   weight_decay: 0.0001
 
+TrainDataset:
+  name: CocoDetection
+  image_dir: /home/ubuntu/emma_myers/tracking_labeled/stomach_cancer_labeled/img_1
+  anno_path: /home/ubuntu/emma_myers/tracking_labeled/stomach_cancer_labeled/annotations/instances_default.json
+
+EvalDataset:
+  name: CocoDetection
+  image_dir: /home/ubuntu/emma_myers/tracking_labeled/pancreatic_cancer_labeled/img_1
+  anno_path: /home/ubuntu/emma_myers/tracking_labeled/pancreatic_cancer_labeled/annotations/instances_default.json
+
+train_dataloader:
+  dataset:
+    img_folder: /home/ubuntu/emma_myers/tracking_labeled/stomach_cancer_labeled/img_1
+    ann_file: /home/ubuntu/emma_myers/tracking_labeled/stomach_cancer_labeled/annotations/instances_default.json
+  shuffle: True
+  num_workers: 16
+  pin_memory: True
+  total_batch_size: 1
+
+val_dataloader:
+  dataset:
+    img_folder: /home/ubuntu/emma_myers/tracking_labeled/pancreatic_cancer_labeled/img_1
+    ann_file: /home/ubuntu/emma_myers/tracking_labeled/pancreatic_cancer_labeled/annotations/instances_default.json
+  shuffle: True
+  num_workers: 4
+  total_batch_size: 1
+
+num_classes: 2
