@@ -123,7 +123,7 @@ def main(args):
             # print(f'scr={scr}, lab={lab}, box={box}')
             for b in box:
                 draw.rectangle(list(b), outline='red')
-                draw.text((b[0], b[1]), text=str(scr[i]), fill='blue')
+                # draw.text((b[0], b[1]), text=str(scr[i]), fill='blue')
 
         # 保存图片到输出目录
         save_path = output_dir / img_path.name
