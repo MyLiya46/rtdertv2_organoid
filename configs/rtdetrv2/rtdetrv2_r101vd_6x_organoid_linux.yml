@@ -35,7 +35,7 @@ RTDETRTransformerv2:
   # num_queries: 300
 
 
-epoches: 200
+epoches: 50
 
 
 optimizer:
@@ -74,18 +74,18 @@ optimizer:
 
 TrainDataset:
   name: CocoDetection
-  image_dir: /home/ubuntu/emma_myers/tracking_labeled/all/img_1
-  anno_path: /home/ubuntu/emma_myers/tracking_labeled/all/annotations/instances_default.json
+  image_dir: /home/ubuntu/emma_myers/tracking_labeled/stomach_cancer_labeled/img_1
+  anno_path: /home/ubuntu/emma_myers/tracking_labeled/stomach_cancer_labeled/annotations/instances_default.json
 
 EvalDataset:
   name: CocoDetection
-  image_dir: /home/ubuntu/emma_myers/tracking_labeled/all/img_1
-  anno_path: /home/ubuntu/emma_myers/tracking_labeled/all/annotations/instances_default.json
+  image_dir: /home/ubuntu/emma_myers/tracking_labeled/pancreatic_cancer_labeled/img_1
+  anno_path: /home/ubuntu/emma_myers/tracking_labeled/pancreatic_cancer_labeled/annotations/instances_default.json
 
 train_dataloader:
   dataset:
-    img_folder: /home/ubuntu/emma_myers/tracking_labeled/all/img_1
-    ann_file: /home/ubuntu/emma_myers/tracking_labeled/all/annotations/instances_default.json
+    img_folder: /home/ubuntu/emma_myers/tracking_labeled/stomach_cancer_labeled/img_1
+    ann_file: /home/ubuntu/emma_myers/tracking_labeled/stomach_cancer_labeled/annotations/instances_default.json
   shuffle: True
   num_workers: 16
   pin_memory: True
@@ -93,8 +93,8 @@ train_dataloader:
 
 val_dataloader:
   dataset:
-    img_folder: /home/ubuntu/emma_myers/tracking_labeled/all/img_1
-    ann_file: /home/ubuntu/emma_myers/tracking_labeled/all/annotations/instances_default.json
+    img_folder: /home/ubuntu/emma_myers/tracking_labeled/pancreatic_cancer_labeled/img_1
+    ann_file: /home/ubuntu/emma_myers/tracking_labeled/pancreatic_cancer_labeled/annotations/instances_default.json
   shuffle: True
   num_workers: 4
   total_batch_size: 1
