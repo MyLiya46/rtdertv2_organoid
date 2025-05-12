@@ -64,24 +64,24 @@ class Model(nn.Module):
 
 
 def get_argparser():
-    # root_path = r"D:/Workspace/Organoid_Tracking"
-    root_path = r"/home/ubuntu/emma_myers"
-
+    # root_path = Path(r"D:/Workspace/Organoid_Tracking")
+    root_path = Path(r"/home/ubuntu/emma_myers")
     parser = argparse.ArgumentParser()
-    # parser.add_argument("--config", default="D:/Medical_segmentation/Kingmed/RT-DETR-main/rtdetrv2_pytorch/configs/rtdetrv2/rtdetrv2_r50vd_organoid_113.yml", help="配置文件路径")
-    parser.add_argument( '--config',
-                        type=str,
-                        default=r"D:\Workspace\Organoid_Tracking\organoid_tracking\rtdetrv2_pytorch\configs\rtdetrv2\rtdetrv2_r101vd_6x_organoid.yml",
-                        help="模型配置文件")
-    # parser.add_argument("--ckpt", default="D:/Medical_segmentation/Kingmed/RT-DETR-main/rtdetrv2_pytorch/tools/output/rtdetrv2_r50vd_organoid_113_test_16002400_epoch100/best.pth", help="权重文件路径")
+    parser.add_argument("--config",
+                        default=root_path / "organoid_tracking/rtdetrv2_organoid/configs/rtdetrv2/rtdetrv2_r101vd_6x_organoid_linux.yml",
+                        help="配置文件路径")
     parser.add_argument("--ckpt",
-                        default=r"D:\Workspace\Organoid_Tracking\organoid_tracking\rtdetrv2_pytorch\output\exp_train_rtdetrv2_r101vd_6x_coco_pancreatic_stomach_cancer20250428-232126\best.pth",
+                        default=root_path / "organoid_tracking/rtdetrv2_organoid/output/exp_train_rtdetrv2_r101vd_6x_organoid_all_200epoch/best.pth",
                         help="权重文件路径")
-    parser.add_argument("--image_folder",
-                        default=r"D:\Workspace\Organoid_Tracking\tracking_labeled\stomach_cancer_labeled\img_1",
+    parser.add_argument("--image_folder", 
+                        default=root_path / "tracking_labeled/stomach_cancer_labeled/img_1",
                         help="待推理图片路径")
+
+    # parser.add_argument("--config", default="D:/Medical_segmentation/Kingmed/RT-DETR-main/rtdetrv2_organoid/configs/rtdetrv2/rtdetrv2_r50vd_organoid_113.yml", help="配置文件路径")
+    # parser.add_argument("--ckpt", default="D:/Medical_segmentation/Kingmed/RT-DETR-main/rtdetrv2_organoid/tools/output/rtdetrv2_r50vd_organoid_113_test_16002400_epoch100/best.pth", help="权重文件路径")
+
     parser.add_argument("--output_dir", 
-                        default=r"D:\Workspace\Organoid_Tracking\organoid_tracking\rtdetrv2_pytorch\output",
+                        default=root_path / "organoid_tracking/rtdetrv2_organoid/output",
                         help="输出文件保存路径")
     parser.add_argument("--device", default="cuda:0")
 

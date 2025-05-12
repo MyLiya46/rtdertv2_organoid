@@ -22,7 +22,7 @@ def setup_experiment(args):
     """创建实验目录结构并返回路径"""
     now = datetime.datetime.now()
     exp_name = f"exp_track_EIoU_{now.strftime('%Y%m%d_%H%M%S')}"
-    exp_dir = Path(r"/home/ubuntu/emma_myers/organoid_tracking/rtdetrv2_pytorch/output") / exp_name
+    exp_dir = Path(r"/home/ubuntu/emma_myers/organoid_tracking/rtdetrv2_organoid/output") / exp_name
     
     # 子文件夹
     (exp_dir / "det").mkdir(parents=True, exist_ok=True)
@@ -141,10 +141,10 @@ def get_argparser():
     root_path = Path(r"/home/ubuntu/emma_myers")
     parser = argparse.ArgumentParser()
     parser.add_argument("--config",
-                        default=root_path / "organoid_tracking/rtdetrv2_pytorch/configs/rtdetrv2/rtdetrv2_r101vd_6x_organoid_linux.yml",
+                        default=root_path / "organoid_tracking/rtdetrv2_organoid/configs/rtdetrv2/rtdetrv2_r101vd_6x_organoid_linux.yml",
                         help="配置文件路径")
     parser.add_argument("--ckpt",
-                        default=root_path / "organoid_tracking/rtdetrv2_pytorch/output/exp_train_rtdetrv2_r101vd_6x_organoid_all_200epoch/best.pth",
+                        default=root_path / "organoid_tracking/rtdetrv2_organoid/output/exp_train_rtdetrv2_r101vd_6x_organoid_all_200epoch/best.pth",
                         help="权重文件路径")
     parser.add_argument("--image_folder", 
                         default=root_path / "tracking_labeled/stomach_cancer_labeled/img_1",
