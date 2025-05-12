@@ -8,8 +8,9 @@ from torch import nn
 from torchvision.transforms import transforms
 from PIL import Image, ImageDraw
 import sys
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
 
-sys.path.append("..")
 from src.core import YAMLConfig
 import argparse
 from pathlib import Path
@@ -63,6 +64,9 @@ class Model(nn.Module):
 
 
 def get_argparser():
+    # root_path = r"D:/Workspace/Organoid_Tracking"
+    root_path = r"/home/ubuntu/emma_myers"
+
     parser = argparse.ArgumentParser()
     # parser.add_argument("--config", default="D:/Medical_segmentation/Kingmed/RT-DETR-main/rtdetrv2_pytorch/configs/rtdetrv2/rtdetrv2_r50vd_organoid_113.yml", help="配置文件路径")
     parser.add_argument( '--config',

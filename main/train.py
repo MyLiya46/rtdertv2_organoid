@@ -7,7 +7,6 @@ from pathlib import Path
 import datetime
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
-# from tools import set_env
 import argparse
 
 from src.misc import dist_utils
