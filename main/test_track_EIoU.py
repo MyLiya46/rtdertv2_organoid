@@ -13,7 +13,8 @@ from tqdm import tqdm
 import colorsys
 import csv
 
-sys.path.append("..")
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
+
 from src.core import YAMLConfig
 from tracker.deep_eiou import Deep_EIoU
 
@@ -136,8 +137,8 @@ class Model(nn.Module):
         return self.postprocessor(outputs, orig_target_sizes)
 
 def get_argparser():
-    # root_path = r"D:/Workspace/Organoid_Tracking"
-    root_path = r"/home/ubuntu/emma_myers"
+    # root_path = Path(r"D:/Workspace/Organoid_Tracking")
+    root_path = Path(r"/home/ubuntu/emma_myers")
     parser = argparse.ArgumentParser()
     parser.add_argument("--config",
                         default=root_path / "organoid_tracking/rtdetrv2_pytorch/configs/rtdetrv2/rtdetrv2_r101vd_6x_organoid_linux.yml",
