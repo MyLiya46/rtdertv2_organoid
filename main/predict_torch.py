@@ -74,7 +74,7 @@ def get_argparser():
                         default=root_path / "organoid_tracking/rtdetrv2_organoid/output/exp_train_rtdetrv2_r101vd_6x_organoid_all_200epoch/best.pth",
                         help="权重文件路径")
     parser.add_argument("--image_folder", 
-                        default=root_path / "tracking_labeled/stomach_cancer_labeled/img_1",
+                        default=root_path / "tracking_labeled/all/img_1",
                         help="待推理图片路径")
 
     # parser.add_argument("--config", default="D:/Medical_segmentation/Kingmed/RT-DETR-main/rtdetrv2_organoid/configs/rtdetrv2/rtdetrv2_r50vd_organoid_113.yml", help="配置文件路径")
@@ -89,9 +89,11 @@ def get_argparser():
 
 
 def main(args):
-    # now = datetime.datetime.now()
-    exp_name = f"exp_predict_{Path(args.ckpt).parent.stem}_{datetime.datetime.now().strftime('%Y%m%d-%H%M%S')}"
-    output_dir = Path(args.output_dir) / exp_name
+
+    # 构建最终输出路径
+    timestamp = datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
+    ckpt_name = Path(args.ckpt).parent.stem
+    output_dir = Path("output/predict") / f"{ckpt_name}_{timestamp}"
     output_dir.mkdir(parents=True, exist_ok=True)
 
     device = torch.device(args.device)

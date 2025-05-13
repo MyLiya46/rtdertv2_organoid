@@ -26,18 +26,19 @@ def main(args, ) -> None:
     update_dict.update({k: v for k, v in args.__dict__.items() \
         if k not in ['update', ] and v is not None})
 
-    cfg = YAMLConfig(args.config, **update_dict)
-    print(f'cfg: {cfg.__dict__}')
-
+    
+    # 构建最终输出路径
     image_dir = cfg.yaml_cfg.get('TrainDataset', {}).get('image_dir', 'unknown_dataset')
     dataset_name = Path(image_dir).parent.name if image_dir != 'unknown_dataset' else 'unknown_dataset'
-
-    base_output_dir = Path("output")
-    exp_dir = base_output_dir / f"ddp_{dataset_name}_{datetime.datetime.now().strftime('%Y%m%d-%H%M%S')}"
-
+    user_defined_output_dir = Path(args.output_dir)
+    experiment_name = user_defined_output_dir.name
+    timestamp = datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
+    base_output_dir = Path("output/train")
+    exp_dir = base_output_dir / f"{experiment_name}_{dataset_name}_{timestamp}"
     args.output_dir = str(exp_dir)
-    cfg.yaml_cfg['output_dir'] = args.output_dir
 
+    cfg = YAMLConfig(args.config, **update_dict)
+    print(f'cfg: {cfg.__dict__}')
     solver = TASKS[cfg.yaml_cfg['task']](cfg)
     
     if args.test_only:

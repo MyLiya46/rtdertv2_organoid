@@ -20,22 +20,23 @@ from tracker.deep_eiou import Deep_EIoU
 
 def setup_experiment(args):
     """创建实验目录结构并返回路径"""
-    now = datetime.datetime.now()
-    exp_name = f"exp_track_EIoU_{now.strftime('%Y%m%d_%H%M%S')}"
-    exp_dir = Path(r"/home/ubuntu/emma_myers/organoid_tracking/rtdetrv2_organoid/output") / exp_name
-    
+
+    timestamp = datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
+    ckpt_name = Path(args.ckpt).parent.stem
+    output_dir = Path("output/predict") / f"{ckpt_name}_{timestamp}"
+    output_dir.mkdir(parents=True, exist_ok=True)
     # 子文件夹
-    (exp_dir / "det").mkdir(parents=True, exist_ok=True)
-    (exp_dir / "tra").mkdir(parents=True, exist_ok=True)
-    (exp_dir / "logs").mkdir(parents=True, exist_ok=True)
-    (exp_dir / "configs").mkdir(parents=True, exist_ok=True)
-    (exp_dir / "code_snapshot").mkdir(parents=True, exist_ok=True)
+    (output_dir / "det").mkdir(parents=True, exist_ok=True)
+    (output_dir / "tra").mkdir(parents=True, exist_ok=True)
+    (output_dir / "logs").mkdir(parents=True, exist_ok=True)
+    (output_dir / "configs").mkdir(parents=True, exist_ok=True)
+    (output_dir / "code_snapshot").mkdir(parents=True, exist_ok=True)
 
     # 配置文件保存
     if args.config and Path(args.config).exists():
-        shutil.copy(args.config, exp_dir/"configs"/Path(args.config).name)
+        shutil.copy(args.config, output_dir/"configs"/Path(args.config).name)
     
-    return exp_dir
+    return output_dir
 
 def write_results(filename, results):
     save_format = '{frame},{id},{x1},{y1},{w},{h},{s},0,0,0\n'
@@ -171,7 +172,7 @@ def get_argparser():
 def main(args):
     results = []
     frame_id = 1
-    exp_dir = setup_experiment(args)
+    output_dir = setup_experiment(args)
 
     # print(f'args.track_high_thresh:{args.track_high_thresh}\n')
     # print(f'args.track_low_thresh:{args.track_low_thresh}\n')
@@ -202,9 +203,9 @@ def main(args):
         results.append((frame_id, online_tlwhs, online_ids, online_scores))
         frame_id += 1
 
-        save_visualizations(reader.pil_img, detections.cpu().numpy(), tracked_objs, exp_dir, img_path.name, vis_thresh=0.75, gt_boxes=gt_dict.get(frame_id, []))
+        save_visualizations(reader.pil_img, detections.cpu().numpy(), tracked_objs, output_dir, img_path.name, vis_thresh=0.75, gt_boxes=gt_dict.get(frame_id, []))
 
-    result_filename = exp_dir / 'predict.txt'
+    result_filename = output_dir / 'predict.txt'
     write_results(result_filename, results)
 
 
@@ -230,19 +231,19 @@ def _draw_boxes(draw, boxes, color_or_func, text_func=None, font_size=20):
                 draw.text((bbox[0], bbox[1]-font_size), text_func(box), fill=color, font=font)
 
 
-def save_visualizations(image, detections, tracked_objs, exp_dir, filename, vis_thresh, gt_boxes=None):
+def save_visualizations(image, detections, tracked_objs, output_dir, filename, vis_thresh, gt_boxes=None):
     det_img = image.copy()
     det_boxes = [d[:5] for d in detections if d[4] > vis_thresh]
     _draw_boxes(ImageDraw.Draw(det_img), det_boxes, color_or_func='red', text_func=lambda x: f"{x[4]:.2f}", font_size=24)
     if gt_boxes:
         _draw_boxes(ImageDraw.Draw(det_img), gt_boxes, color_or_func='green', text_func=None, font_size=24)
-    det_img.save(exp_dir/"det"/filename)
+    det_img.save(output_dir/"det"/filename)
 
     tra_img = image.copy()
     _draw_boxes(ImageDraw.Draw(tra_img), tracked_objs, color_or_func=lambda x: generate_colors(x.track_id), text_func=lambda x: f"ID:{x.track_id}", font_size=24)
     if gt_boxes:
         _draw_boxes(ImageDraw.Draw(tra_img), gt_boxes, color_or_func='green', text_func=None, font_size=24)
-    tra_img.save(exp_dir/"tra"/filename)
+    tra_img.save(output_dir/"tra"/filename)
 
 if __name__ == "__main__":
     args = get_argparser().parse_args()
