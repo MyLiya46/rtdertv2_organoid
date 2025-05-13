@@ -19,9 +19,6 @@ def main(args, ) -> None:
     """main
     """
     dist_utils.setup_distributed(args.print_rank, args.print_method, seed=args.seed)
-    torch.cuda.set_device(args.local_rank)
-    local_rank = args.local_rank
-    torch.cuda.set_device(local_rank)
     
     assert not all([args.tuning, args.resume]), \
         'Only support from_scrach or resume or tuning at one time'
