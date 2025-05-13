@@ -1,1 +1,0 @@
-python references/deploy/rtdetrv2_torch.py -c "configs\rtdetrv2\rtdetrv2_r18vd_120e_coco.yml" -r "checkpoints\rtdetrv2_r18vd_120e_coco_rerun_48.1.pth" --im-file="man_with_a_dog.png" --device=cuda:0
