@@ -76,7 +76,7 @@ train_dataloader:
     img_folder: /home/ubuntu/emma_myers/tracking_labeled/stomach_cancer_labeled/img_1
     ann_file: /home/ubuntu/emma_myers/tracking_labeled/stomach_cancer_labeled/annotations/instances_default.json
   shuffle: True
-  num_workers: 16
+  num_workers: 8
   pin_memory: True
   total_batch_size: 1
 
