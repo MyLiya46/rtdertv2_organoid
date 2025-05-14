@@ -137,13 +137,22 @@ class BaseSolver(object):
     def load_resume_state(self, path: str):
         """load resume
         """
-        # for cuda:0 memory
         if path.startswith('http'):
             state = torch.hub.load_state_dict_from_url(path, map_location='cpu')
         else:
-            state = torch.load(path, map_location='cpu')
+            state = torch.load(path, map_location='cpu',weights_only=True)
 
-        self.load_state_dict(state)
+        module = dist_utils.de_parallel(self.model)
+        
+# self.load_state_dict(state)
+
+        if 'ema' in state:
+            stat, infos = self._matched_state(module.state_dict(), state['ema']['module'])
+        else:
+            stat, infos = self._matched_state(module.state_dict(), state['model'])
+
+        module.load_state_dict(stat, strict=False)
+        print(f'Load model.state_dict, {infos}')
 
     
     def load_tuning_state(self, path: str,):
