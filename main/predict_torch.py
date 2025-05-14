@@ -93,7 +93,7 @@ def main(args):
     # 构建最终输出路径
     timestamp = datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
     ckpt_name = Path(args.ckpt).parent.stem
-    output_dir = Path("output/predict") / f"{ckpt_name}_{timestamp}"
+    output_dir = Path("output/exp_predict") / f"{ckpt_name}_{timestamp}"
     output_dir.mkdir(parents=True, exist_ok=True)
 
     device = torch.device(args.device)

@@ -20,17 +20,18 @@ from tracker.deep_eiou import Deep_EIoU
 
 def setup_experiment(args):
     """创建实验目录结构并返回路径"""
-
+    experiment_name = Path(args.output_dir).name
     timestamp = datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
-    ckpt_name = Path(args.ckpt).parent.stem
-    output_dir = Path("output/predict") / f"{ckpt_name}_{timestamp}"
+    base_output_dir = Path("output/exp_track")
+    output_dir = base_output_dir / f"{experiment_name}_{timestamp}"
+    args.output_dir = str(output_dir)
+
     output_dir.mkdir(parents=True, exist_ok=True)
     # 子文件夹
     (output_dir / "det").mkdir(parents=True, exist_ok=True)
     (output_dir / "tra").mkdir(parents=True, exist_ok=True)
     (output_dir / "logs").mkdir(parents=True, exist_ok=True)
     (output_dir / "configs").mkdir(parents=True, exist_ok=True)
-    (output_dir / "code_snapshot").mkdir(parents=True, exist_ok=True)
 
     # 配置文件保存
     if args.config and Path(args.config).exists():
@@ -115,9 +116,9 @@ class ImageReader:
 
 
 class Model(nn.Module):
-    def __init__(self, confg=None, ckpt="") -> None:
+    def __init__(self, config=None, ckpt="") -> None:
         super().__init__()
-        self.cfg = YAMLConfig(confg, resume=ckpt)
+        self.cfg = YAMLConfig(config, resume=ckpt)
         if ckpt:
             checkpoint = torch.load(ckpt, map_location='cpu', weights_only=True)
             if 'ema' in checkpoint:
@@ -138,8 +139,8 @@ class Model(nn.Module):
         return self.postprocessor(outputs, orig_target_sizes)
 
 def get_argparser():
-    # root_path = Path(r"D:/Workspace/Organoid_Tracking")
-    root_path = Path(r"/home/ubuntu/emma_myers")
+    root_path = Path(r"D:/Workspace/Organoid_Tracking")
+    # root_path = Path(r"/home/ubuntu/emma_myers")
     parser = argparse.ArgumentParser()
     parser.add_argument("--config",
                         default=root_path / "organoid_tracking/rtdetrv2_organoid/configs/rtdetrv2/rtdetrv2_r101vd_6x_organoid_linux.yml",
@@ -151,7 +152,8 @@ def get_argparser():
                         default=root_path / "tracking_labeled/stomach_cancer_labeled/img_1",
                         help="待推理图片路径")
     parser.add_argument("--gt_file", default=root_path / "tracking_labeled/stomach_cancer_labeled/annotations/MOT/gt.txt", help="可选:GT文件路径，用于可视化")
-
+    parser.add_argument('--output_dir', type=str, help='output directoy', default='./output/rtdetrv2_r101vd_6x_organoid')
+    
     parser.add_argument("--device", default="cuda:0" if torch.cuda.is_available() else "cpu")
     parser.add_argument("--track_high_thresh", type=float, default=0.6, help="tracking confidence threshold")
     # parser.add_argument("--track_high_thresh", type=float, default=1.0, help="tracking confidence threshold")
@@ -179,7 +181,7 @@ def main(args):
     device = torch.device(args.device)
     reader = ImageReader(orig_size=(3072, 2048), resize=(2400, 1600))
     # reader_2 = ImageReader(resize=(3072, 2048))
-    model = Model(confg=args.config, ckpt=args.ckpt).to(device)
+    model = Model(config=args.config, ckpt=args.ckpt).to(device)
     tracker = Deep_EIoU(args, frame_rate=30)  # 转换为字典参数
     gt_dict = load_gt_for_frame(args.gt_file, reader.orig_size, reader.resize) if args.gt_file else {}
 
@@ -203,7 +205,7 @@ def main(args):
         results.append((frame_id, online_tlwhs, online_ids, online_scores))
         frame_id += 1
 
-        save_visualizations(reader.pil_img, detections.cpu().numpy(), tracked_objs, output_dir, img_path.name, vis_thresh=0.75, gt_boxes=gt_dict.get(frame_id, []))
+        save_visualizations(reader.pil_img, detections.cpu().numpy(), tracked_objs, output_dir, img_path.name, vis_thresh=0.1, gt_boxes=gt_dict.get(frame_id, []))
 
     result_filename = output_dir / 'predict.txt'
     write_results(result_filename, results)

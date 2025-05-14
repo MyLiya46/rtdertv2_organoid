@@ -35,7 +35,7 @@ def main(args, ) -> None:
     experiment_name = user_defined_output_dir.name
     timestamp = datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
     
-    base_output_dir = Path("output/train")
+    base_output_dir = Path("output/exp_train")
     exp_dir = base_output_dir / f"{experiment_name}_{dataset_name}_{timestamp}"
     args.output_dir = str(exp_dir)
 
@@ -70,8 +70,8 @@ if __name__ == '__main__':
     parser.add_argument('--seed', type=int, help='exp reproducibility', default=0)
     parser.add_argument('--use-amp', action='store_true', help='auto mixed precision training')
 
-    parser.add_argument('--output-dir', type=str, help='output directoy', default='./output/rtdetrv2_r101vd_6x_organoid')
-    # parser.add_argument('--output-dir', type=str, help='output directoy', default='output/rtdetrv2_organoid')
+    parser.add_argument('--output_dir', type=str, help='output directoy', default='./output/rtdetrv2_r101vd_6x_organoid')
+    # parser.add_argument('--output_dir', type=str, help='output directoy', default='output/rtdetrv2_organoid')
     parser.add_argument('--summary-dir', type=str, help='tensorboard summry')
     parser.add_argument('--test-only', action='store_true', default=False,)
 
