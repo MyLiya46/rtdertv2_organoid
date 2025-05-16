@@ -64,8 +64,8 @@ class Model(nn.Module):
 
 
 def get_argparser():
-    # root_path = Path(r"D:/Workspace/Organoid_Tracking")
-    root_path = Path(r"/home/ubuntu/emma_myers")
+    root_path = Path(r"D:/Workspace/Organoid_Tracking")
+    # root_path = Path(r"/home/ubuntu/emma_myers")
     parser = argparse.ArgumentParser()
     parser.add_argument("--config",
                         default=root_path / "organoid_tracking/rtdetrv2_organoid/configs/rtdetrv2/rtdetrv2_r101vd_6x_organoid_linux.yml",
