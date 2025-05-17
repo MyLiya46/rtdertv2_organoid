@@ -4,7 +4,8 @@ import cv2
 import matplotlib.pyplot as plt
 
 # 配置路径
-data_dir = r"D:\Workspace\Organoid_Tracking\tracking_labeled\organoid_labeled\train"
+# data_dir = r"D:\Workspace\Organoid_Tracking\tracking_labeled\organoid_labeled\train"
+data_dir = r"/home/ubuntu/emma_myers/tracking_labeled/organoid_labeled/train"
 
 # 找出前 N 个 JSON 文件
 json_files = sorted([f for f in os.listdir(data_dir) if f.endswith('.json')])[:5]

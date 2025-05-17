@@ -5,8 +5,13 @@ import random
 from pathlib import Path
 
 # 配置
-json_path = Path(r"D:\Workspace\Organoid_Tracking\tracking_labeled\organoid_labeled\annotations\instances_default.json")
-save_dir = Path(r"D:\Workspace\Organoid_Tracking\tracking_labeled\organoid_labeled")
+# json_path = Path(r"D:\Workspace\Organoid_Tracking\tracking_labeled\organoid_labeled\annotations\instances_default.json")
+# save_dir = Path(r"D:\Workspace\Organoid_Tracking\tracking_labeled\organoid_labeled")
+
+json_path = Path(r"/home/ubuntu/emma_myers/tracking_labeled/organoid_labeled/annotations/instances_default.json")
+save_dir = Path(r"/home/ubuntu/emma_myers/tracking_labeled/organoid_labeled")
+
+
 train_dir = save_dir / "train"
 val_dir = save_dir / "val"
 val_ratio = 0.2  # 验证集比例

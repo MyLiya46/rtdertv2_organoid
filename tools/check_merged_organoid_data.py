@@ -6,8 +6,12 @@ import numpy as np
 from collections import defaultdict
 
 # === 路径配置 ===
-annFile = r"D:\Workspace\Organoid_Tracking\tracking_labeled\organoid_labeled\train\annotations\instances_default.json"
-img_dir = r"D:\Workspace\Organoid_Tracking\tracking_labeled\organoid_labeled\train"
+#annFile = r"D:\Workspace\Organoid_Tracking\tracking_labeled\organoid_labeled\train\annotations\instances_default.json"
+#img_dir = r"D:\Workspace\Organoid_Tracking\tracking_labeled\organoid_labeled\train"
+
+annFile = r"/home/ubuntu/emma_myers/tracking_labeled//organoid_labeled/train/annotations/instances_default.json"
+img_dir = r"/home/ubuntu/emma_myers/tracking_labeled/organoid_labeled/train"
+
 num_images_to_show = 5  # 仅可视化前 N 张图像
 
 # === 读取 COCO JSON ===
