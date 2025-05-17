@@ -65,7 +65,30 @@ TrainDataset:
   name: CocoDetection
   image_dir: /home/ubuntu/emma_myers/tracking_labeled/stomach_cancer_labeled/img_1
   anno_path: /home/ubuntu/emma_myers/tracking_labeled/stomach_cancer_labeled/annotations/instances_default.json
+  transforms:
+    - Decode: {}
+    - TransVisionAug:
+        aug_list:
+          - ElasticTransform:
+              alpha: 1.0
+              sigma: 50
+              alpha_affine: 40
+              prob: 0.5
+          - RandomAffine:
+              degrees: [-15, 15]
+              scale: [0.8, 1.2]
+              shear: [-10, 10]
+              translate: [0.1, 0.1]
+              prob: 1.0
+    - RandomFlip: {prob: 0.5}
+    - Resize: {target_size: [1600, 2400], keep_ratio: True}
+    - NormalizeImage:
+        mean: [123.675, 116.28, 103.53]
+        std: [58.395, 57.12, 57.375]
+        is_scale: True
+    - Permute: {}
 
+    
 EvalDataset:
   name: CocoDetection
   image_dir: /home/ubuntu/emma_myers/tracking_labeled/pancreatic_cancer_labeled/img_1

@@ -143,10 +143,10 @@ def get_argparser():
     # root_path = Path(r"/home/ubuntu/emma_myers")
     parser = argparse.ArgumentParser()
     parser.add_argument("--config",
-                        default=root_path / "configs/rtdetrv2/rtdetrv2_r50vd_organoid.yml",
+                        default=root_path / "organoid_tracking/rtdetrv2_organoid/configs/rtdetrv2/rtdetrv2_r50vd_organoid.yml",
                         help="配置文件路径")
     parser.add_argument("--ckpt",
-                        default=root_path / "output/exp_train/rtdetrv2_r50vd_organoid_stomach_cancer_epoch50_freeze_at_0/best.pth",
+                        default=root_path / "organoid_tracking/rtdetrv2_organoid/output/exp_train/rtdetrv2_r50vd_organoid_stomach_cancer_epoch50_freeze_at_0/best.pth",
                         help="权重文件路径")
     parser.add_argument("--image_folder", 
                         default=root_path / "tracking_labeled/stomach_cancer_labeled/img_1",
