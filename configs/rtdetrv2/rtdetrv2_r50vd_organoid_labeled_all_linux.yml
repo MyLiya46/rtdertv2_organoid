@@ -63,8 +63,8 @@ optimizer:
 
 TrainDataset:
   name: CocoDetection
-  image_dir: /home/ubuntu/emma_myers/tracking_labeled/organoid_labeled
-  anno_path: /home/ubuntu/emma_myers/tracking_labeled/organoid_labeled/annotations/instances_default.json
+  image_dir: /home/ubuntu/emma_myers/tracking_labeled/organoid_labeled/train
+  anno_path: /home/ubuntu/emma_myers/tracking_labeled/organoid_labeled/train/annotations/instances_default.json
   transforms:
     - Decode: {}
     - TransVisionAug:
@@ -88,16 +88,15 @@ TrainDataset:
         is_scale: True
     - Permute: {}
 
-    
 EvalDataset:
   name: CocoDetection
-  image_dir: /home/ubuntu/emma_myers/tracking_labeled/pancreatic_cancer_labeled
-  anno_path: /home/ubuntu/emma_myers/tracking_labeled/pancreatic_cancer_labeled/annotations/instances_default.json
+  image_dir: /home/ubuntu/emma_myers/tracking_labeled/organoid_labeled/val
+  anno_path: /home/ubuntu/emma_myers/tracking_labeled/organoid_labeled/val/annotations/instances_default.json
 
 train_dataloader:
   dataset:
-    img_folder: /home/ubuntu/emma_myers/tracking_labeled/organoid_labeled
-    ann_file: /home/ubuntu/emma_myers/tracking_labeled/organoid_labeled/annotations/instances_default.json
+    img_folder: /home/ubuntu/emma_myers/tracking_labeled/organoid_labeled/train
+    ann_file: /home/ubuntu/emma_myers/tracking_labeled/organoid_labeled/train/annotations/instances_default.json
   shuffle: True
   num_workers: 8
   pin_memory: True
@@ -105,9 +104,9 @@ train_dataloader:
 
 val_dataloader:
   dataset:
-    img_folder: /home/ubuntu/emma_myers/tracking_labeled/pancreatic_cancer_labeled
-    ann_file: /home/ubuntu/emma_myers/tracking_labeled/pancreatic_cancer_labeled/annotations/instances_default.json
-  shuffle: True
+    img_folder: /home/ubuntu/emma_myers/tracking_labeled/organoid_labeled/val
+    ann_file: /home/ubuntu/emma_myers/tracking_labeled/organoid_labeled/val/annotations/instances_default.json
+  shuffle: False
   num_workers: 4
   total_batch_size: 1
 
