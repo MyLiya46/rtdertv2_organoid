@@ -40,7 +40,7 @@ def main():
     # print('gt_files', gt_files)
     # pred_files = [f for f in glob.glob(os.path.join(results_folder, '*.txt')) if not os.path.basename(f).startswith('eval')]
     gt_files = glob.glob(r"D:\Workspace\Organoid_Tracking\tracking_labeled\stomach_cancer_labeled\annotations\MOT\gt.txt")
-    pred_files = glob.glob(r"D:\Workspace\Organoid_Tracking\tracking_labeled\stomach_cancer_labeled\annotations\MOT\predict.txt")
+    pred_files = glob.glob(r"D:\Workspace\Organoid_Tracking\organoid_tracking\rtdetrv2_organoid\output\exp_track\rtdetrv2_r50vd_organoid_epoch50_freeze3stage_20250516-162630\predict.txt")
 
     logger.info('Found {} groundtruths and {} test files.'.format(len(gt_files), len(pred_files)))
     logger.info('Available LAP solvers {}'.format(mm.lap.available_solvers))

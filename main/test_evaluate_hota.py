@@ -1,7 +1,11 @@
 import os
+import sys
 from copy import deepcopy
 import motmetrics as mm
 import numpy as np
+
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
+
 from TrackEval import trackeval
 from scipy.optimize import linear_sum_assignment
 from collections import OrderedDict
@@ -756,10 +760,10 @@ def hota_eval():
     #         else:
     #             x = args[setting]
     #         config[setting] = x
-    config['GT_FOLDER'] = 'D:\dataset\organoids_tracking\pancreatic_cancer\Y202312006_P8\img_visu\label'
+    config['GT_FOLDER'] = r"D:\Workspace\Organoid_Tracking\tracking_labeled\stomach_cancer_labeled\annotations\MOT"
     config['SKIP_SPLIT_FOL'] = True
     config['GT_LOC_FORMAT'] = '{gt_folder}/gt.txt'
-    config['TRACKERS_FOLDER'] = 'D:\dataset\organoids_tracking\pancreatic_cancer\Y202312006_P8\img_visu\label'
+    config['TRACKERS_FOLDER'] = r"D:\Workspace\Organoid_Tracking\organoid_tracking\rtdetrv2_organoid\output\exp_track\rtdetrv2_r50vd_organoid_epoch50_freeze3stage_20250516-162630"
     config['LOG_ON_ERROR'] = 'error.txt'
     config['METRICS'] = ['HOTA']
     config['CLASSES_TO_EVAL'] = ['organoid']
@@ -773,8 +777,8 @@ def hota_eval():
     data_loader = MotChallenge2DBox(dataset_config)
     hota = HOTA(metrics_config)
     class_list = ['organoid']
-    raw_gt_data = data_loader._load_raw_file('D:\dataset\organoids_tracking\pancreatic_cancer\Y202312006_P8\img_visu\label\gt.txt', is_gt=True)
-    raw_tracker_data = data_loader._load_raw_file('D:\dataset\organoids_tracking\pancreatic_cancer\Y202312006_P8\img_visu\label\predict.txt', is_gt=False)
+    raw_gt_data = data_loader._load_raw_file(r"D:\Workspace\Organoid_Tracking\tracking_labeled\stomach_cancer_labeled\annotations\MOT\gt.txt", is_gt=True)
+    raw_tracker_data = data_loader._load_raw_file(r"D:\Workspace\Organoid_Tracking\organoid_tracking\rtdetrv2_organoid\output\exp_track\rtdetrv2_r50vd_organoid_epoch50_freeze3stage_20250516-162630\predict.txt", is_gt=False)
     raw_data = {**raw_tracker_data, **raw_gt_data}  # Merges dictionaries
 
     # Calculate similarities for each timestep.
