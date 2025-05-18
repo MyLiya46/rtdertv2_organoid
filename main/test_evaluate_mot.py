@@ -5,6 +5,7 @@
 输出格式化评估报告
 兼容MOT Challenge数据格式
 """
+import argparse
 import glob
 import os
 from collections import OrderedDict
@@ -28,7 +29,7 @@ def compare_dataframes(gts, ts):
     return accs, names
 
 
-def main():
+def main(args):
     # evaluate MOTA
     mm.lap.default_solver = 'lap'
 
@@ -39,9 +40,13 @@ def main():
     #     os.path.join('datasets/mot/train', '*/gt/gt{}.txt'.format(gt_type)))
     # print('gt_files', gt_files)
     # pred_files = [f for f in glob.glob(os.path.join(results_folder, '*.txt')) if not os.path.basename(f).startswith('eval')]
-    gt_files = glob.glob(r"D:\Workspace\Organoid_Tracking\tracking_labeled\stomach_cancer_labeled\annotations\MOT\gt.txt")
-    pred_files = glob.glob(r"D:\Workspace\Organoid_Tracking\organoid_tracking\rtdetrv2_organoid\output\exp_track\rtdetrv2_r50vd_organoid_epoch50_freeze3stage_20250516-162630\predict.txt")
-
+    
+    # gt_files = glob.glob(r"D:\Workspace\Organoid_Tracking\tracking_labeled\stomach_cancer_labeled\annotations\MOT\gt.txt")
+    # pred_files = glob.glob(r"D:\Workspace\Organoid_Tracking\organoid_tracking\rtdetrv2_organoid\output\exp_track\rtdetrv2_r50vd_organoid_epoch50_freeze3stage_20250516-162630\predict.txt")
+    
+    gt_files = [args.gt]
+    pred_files = [args.pred]
+    
     logger.info('Found {} groundtruths and {} test files.'.format(len(gt_files), len(pred_files)))
     logger.info('Available LAP solvers {}'.format(mm.lap.available_solvers))
     logger.info('Default LAP solver \'{}\''.format(mm.lap.default_solver))
@@ -98,4 +103,8 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--gt', type=str, required=True, help='GT文件路径（MOT格式）')
+    parser.add_argument('--pred', type=str, required=True, help='预测文件路径（MOT格式）')
+    args = parser.parse_args()
+    main(args)
