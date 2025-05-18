@@ -21,8 +21,8 @@ scaler:
 PResNet:
   depth: 50
   variant: d
-  # freeze_at: 0
-  freeze_at: 2
+  freeze_at: 0
+  # freeze_at: 2
   # freeze_at: 4
   # 逐层解冻
   return_idx: [1, 2, 3]

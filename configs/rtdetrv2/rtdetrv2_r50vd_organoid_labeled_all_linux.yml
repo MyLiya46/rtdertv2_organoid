@@ -22,8 +22,8 @@ PResNet:
   depth: 50
   variant: d
   # freeze_at: 0
-  # freeze_at: 2
-  freeze_at: 4
+  freeze_at: 2
+  # freeze_at: 4
   # 逐层解冻
   return_idx: [1, 2, 3]
   num_stages: 4
@@ -98,9 +98,9 @@ train_dataloader:
     img_folder: /home/ubuntu/emma_myers/tracking_labeled/organoid_labeled/train
     ann_file: /home/ubuntu/emma_myers/tracking_labeled/organoid_labeled/train/annotations/instances_default.json
   shuffle: True
-  num_workers: 8
+  num_workers: 16
   pin_memory: True
-  total_batch_size: 1
+  total_batch_size: 2
 
 val_dataloader:
   dataset:
@@ -108,6 +108,6 @@ val_dataloader:
     ann_file: /home/ubuntu/emma_myers/tracking_labeled/organoid_labeled/val/annotations/instances_default.json
   shuffle: False
   num_workers: 4
-  total_batch_size: 1
+  total_batch_size: 2
 
 num_classes: 2
