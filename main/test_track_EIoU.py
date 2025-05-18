@@ -188,8 +188,11 @@ def main(args):
     image_files = sorted(Path(args.image_folder).glob('*.jpg'))
     for img_path in tqdm(image_files, desc="Processing Images"):
         img_tensor = reader(img_path).to(device)
+
+        orig_w, orig_h = reader.orig_size
+
         with torch.no_grad():
-            _, boxes, scores = model(img_tensor, torch.tensor([[img_tensor.shape[3], img_tensor.shape[2]]]).to(device))
+            _, boxes, scores = model(img_tensor,torch.tensor([[orig_w, orig_h]]).to(device))
 
         detections = torch.cat((boxes, scores.unsqueeze(-1)), 2).squeeze(0)
         tracked_objs = tracker.update(detections.cpu(), embedding=None)
@@ -211,40 +214,52 @@ def main(args):
     write_results(result_filename, results)
 
 
-def _draw_boxes(draw, boxes, color_or_func, text_func=None, font_size=20):
-    """通用绘制函数，支持 ndarray/对象两种情况，并支持画文字（置信度/ID）"""
-    try:
-        font = ImageFont.truetype("arial.ttf", font_size)
-    except IOError:
-        font = ImageFont.load_default()
+def save_visualizations(image, detections, tracked_objs,
+                        output_dir, filename, vis_thresh, gt_boxes=None,
+                        orig_size=(3072,2048), target_size=(2400,1600)):
+    # 计算从原始尺度到当前 image.size（=target_size）的缩放因子
+    scale_x = target_size[0] / orig_size[0]
+    scale_y = target_size[1] / orig_size[1]
 
-    for box in boxes:
-        if isinstance(box, (list, tuple, np.ndarray)):
-            coords = [(box[0], box[1]), (box[2], box[3])]
-            draw.rectangle(coords, outline=color_or_func, width=3)
-            if text_func:
-                draw.text((box[0], box[1]-font_size), text_func(box), fill=color_or_func, font=font)
-        else:
-            bbox = box.tlbr
-            coords = [(bbox[0], bbox[1]), (bbox[2], bbox[3])]
-            color = color_or_func(box) if callable(color_or_func) else color_or_func
-            draw.rectangle(coords, outline=color, width=3)
-            if text_func:
-                draw.text((bbox[0], bbox[1]-font_size), text_func(box), fill=color, font=font)
-
-
-def save_visualizations(image, detections, tracked_objs, output_dir, filename, vis_thresh, gt_boxes=None):
+    # —— 绘制检测框
     det_img = image.copy()
-    det_boxes = [d[:5] for d in detections if d[4] > vis_thresh]
-    _draw_boxes(ImageDraw.Draw(det_img), det_boxes, color_or_func='red', text_func=lambda x: f"{x[4]:.2f}", font_size=24)
+    det_draw = ImageDraw.Draw(det_img)
+    # detections: array of [x1,y1,x2,y2,score] 都是原始尺度
+    for d in detections:
+        x1, y1, x2, y2, s = d
+        if s <= vis_thresh:
+            continue
+        # 缩放到可视化图尺寸
+        x1r = x1 * scale_x
+        y1r = y1 * scale_y
+        x2r = x2 * scale_x
+        y2r = y2 * scale_y
+        det_draw.rectangle([(x1r,y1r),(x2r,y2r)], outline='red', width=3)
+        det_draw.text((x1r, y1r-20), f"{s:.2f}", fill='red')
+    # 画 GT（已经在 target_size 中加载过，不需要再缩放）
     if gt_boxes:
-        _draw_boxes(ImageDraw.Draw(det_img), gt_boxes, color_or_func='green', text_func=None, font_size=24)
+        for (gx1, gy1, gx2, gy2) in gt_boxes:
+            det_draw.rectangle([(gx1,gy1),(gx2,gy2)], outline='green', width=2)
     det_img.save(output_dir/"det"/filename)
 
+    # —— 绘制跟踪框
     tra_img = image.copy()
-    _draw_boxes(ImageDraw.Draw(tra_img), tracked_objs, color_or_func=lambda x: generate_colors(x.track_id), text_func=lambda x: f"ID:{x.track_id}", font_size=24)
+    tra_draw = ImageDraw.Draw(tra_img)
+    for obj in tracked_objs:
+        # obj.tlbr 是 [x1,y1,x2,y2] 原始尺度
+        x1, y1, x2, y2 = obj.tlbr
+        # 过滤置信度或其他判定同推理脚本一致
+        # 缩放
+        x1r = x1 * scale_x
+        y1r = y1 * scale_y
+        x2r = x2 * scale_x
+        y2r = y2 * scale_y
+        color = generate_colors(obj.track_id)
+        tra_draw.rectangle([(x1r,y1r),(x2r,y2r)], outline=color, width=3)
+        tra_draw.text((x1r, y1r-20), f"ID:{obj.track_id}", fill=color)
     if gt_boxes:
-        _draw_boxes(ImageDraw.Draw(tra_img), gt_boxes, color_or_func='green', text_func=None, font_size=24)
+        for (gx1, gy1, gx2, gy2) in gt_boxes:
+            tra_draw.rectangle([(gx1,gy1),(gx2,gy2)], outline='green', width=2)
     tra_img.save(output_dir/"tra"/filename)
 
 if __name__ == "__main__":
