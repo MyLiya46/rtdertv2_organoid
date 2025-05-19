@@ -139,8 +139,8 @@ class Model(nn.Module):
         return self.postprocessor(outputs, orig_target_sizes)
 
 def get_argparser():
-    root_path = Path(r"D:/Workspace/Organoid_Tracking")
-    # root_path = Path(r"/home/ubuntu/emma_myers")
+    # root_path = Path(r"D:/Workspace/Organoid_Tracking")
+    root_path = Path(r"/home/ubuntu/emma_myers")
     parser = argparse.ArgumentParser()
     parser.add_argument("--config",
                         default=root_path / "organoid_tracking/rtdetrv2_organoid/configs/rtdetrv2/rtdetrv2_r50vd_organoid.yml",
