@@ -1,10 +1,3 @@
-"""
-多目标跟踪性能评估
-使用 MOTMetrics 计算核心指标（MOTA/MOTP）
-支持自定义 IOU 阈值（默认为 0.5）
-输出格式化评估报告
-兼容 MOT Challenge 数据格式
-"""
 import argparse
 from pathlib import Path
 from collections import OrderedDict

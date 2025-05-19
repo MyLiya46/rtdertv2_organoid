@@ -247,6 +247,9 @@ class Deep_EIoU(object):
         '''
         
         self.frame_id += 1
+
+        STrack.multi_predict(self.tracked_stracks)
+        
         activated_starcks = []
         refind_stracks = []
         lost_stracks = []
